@@ -14,6 +14,8 @@ public class PersonController {
 
     private FindByIdPerson findById;
 
+    private CreatePerson create;
+
     @Inject
     public PersonController (FindByIdPerson findById){
         this.findById = findById;
