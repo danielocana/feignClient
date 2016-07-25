@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.netflix.feign:feign-hystrix:8.16.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.feign/feign-hystrix/8.16.2/6d4151b120437534ac3d194060da7242eef61079/feign-hystrix-8.16.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.feign/feign-hystrix/8.16.2/8bf3c719d9d8daafa7621f744ed93d2693c4dd4c/feign-hystrix-8.16.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

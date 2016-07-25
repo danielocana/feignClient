@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: Feign client
+
+server:
+  port: 8010
+
+info:
+  app:
+    name: To feign
+    description: to call another api using eureka
+    version: 1.0.0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.99.100:8080/eureka/v2/
