@@ -22,7 +22,7 @@ public class FeignConfiguration {
         return new JAXRSContract();
     }
 
-    /*@Bean
+    @Bean
     @ConditionalOnClass(RequestInterceptor.class)
     RequestInterceptor userAgentInterceptor() {
         return new RequestInterceptor() {
@@ -36,5 +36,5 @@ public class FeignConfiguration {
                 template.header("User-Agent", serviceName);
             }
         };
-    }*/
+    }
 }
