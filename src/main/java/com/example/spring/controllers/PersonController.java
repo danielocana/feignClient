@@ -48,7 +48,7 @@ public class PersonController {
     public void handleAllException(Exception ex, HttpServletResponse response) throws IOException {
         if (ex instanceof HystrixRuntimeException) {
             HystrixRuntimeException hystrixRuntimeException = (HystrixRuntimeException) ex;
-            response.setStatus(HttpResponseStatus.SERVICE_UNAVAILABLE.code());
+            response.setStatus(HttpResponseStatus.NOT_FOUND.code());
             response.setContentType(MediaType.APPLICATION_JSON);
             response.getOutputStream().print(hystrixRuntimeException.getCause().getLocalizedMessage());
         } else if (ex.getCause() instanceof FeignException) {
