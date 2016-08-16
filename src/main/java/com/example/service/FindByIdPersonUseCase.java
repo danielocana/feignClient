@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Inject;
 
-public class FindByIdPerson {
+public class FindByIdPersonUseCase {
 
     @Autowired
     PersonRepositoryFeign repository;

@@ -4,7 +4,7 @@ import com.example.domain.person.Person;
 import com.example.infrastructure.repository.PersonRepositoryFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CreatePerson {
+public class CreatePersonUseCase {
 
     @Autowired
     PersonRepositoryFeign repository;

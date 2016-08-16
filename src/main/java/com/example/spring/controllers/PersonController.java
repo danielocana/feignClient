@@ -1,42 +1,48 @@
 package com.example.spring.controllers;
 
 import com.example.domain.person.Person;
-import com.example.infrastructure.repository.PersonRepositoryFeign;
-import com.example.service.CreatePerson;
-import com.example.service.FindByIdPerson;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.service.CreatePersonUseCase;
+import com.example.service.FindAllPersonUseCase;
+import com.example.service.FindByIdPersonUseCase;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import feign.FeignException;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.time.Instant;
+import java.util.List;
 
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
 
-    private FindByIdPerson findById;
+    private FindByIdPersonUseCase findById;
 
-    private CreatePerson create;
+    private CreatePersonUseCase create;
+
+    private FindAllPersonUseCase findAllPersonUseCase;
 
     @Inject
-    public PersonController(FindByIdPerson findById,
-                            CreatePerson create) {
+    public PersonController(FindByIdPersonUseCase findById,
+                            CreatePersonUseCase create,
+                            FindAllPersonUseCase findAllPersonUseCase) {
         this.findById = findById;
         this.create = create;
+        this.findAllPersonUseCase = findAllPersonUseCase;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public Person findById(@PathVariable String id) {
         return findById.findById(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    public List<Person> findAll (@RequestParam( defaultValue = "0", required=false, name = "offset") String offset,
+                                  @RequestParam( defaultValue = "20", required=false, name = "limit") String limit){
+        return findAllPersonUseCase.finAll(offset,limit);
     }
 
     @RequestMapping(method = RequestMethod.POST)
