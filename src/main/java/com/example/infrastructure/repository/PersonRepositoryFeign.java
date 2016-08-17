@@ -17,7 +17,7 @@ public interface PersonRepositoryFeign {
     Person findById(@PathParam("id") String id);
 
     @GET
-    @Path("/persons{pagination}")
+    @Path("/persons")
     @Consumes("application/json")
     List<Person> findAll();
 
