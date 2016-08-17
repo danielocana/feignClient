@@ -12,6 +12,7 @@ public class FindAllPersonUseCase {
     PersonRepositoryFeign repository;
 
     public List<Person> finAll(String offset, String limit){
+        String pagination = "?limit="+limit+"&offset="+offset;
         return repository.findAll();
     }
 }
