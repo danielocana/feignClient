@@ -2,6 +2,7 @@ package com.example.infrastructure.repository;
 
 import com.example.domain.person.Person;
 import com.example.spring.configuration.FeignConfiguration;
+import feign.Param;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import rx.Observable;
 
@@ -15,6 +16,11 @@ public interface PersonRepositoryFeign {
     @Path("/persons/{id}")
     @Consumes("application/json")
     Person findById(@PathParam("id") String id);
+
+    @GET
+    @Path("/persons?{pagination}")
+    @Consumes("application/json")
+    Observable<Person> findAll(@Param("pagination")String pagination);
 
     @GET
     @Path("/persons")

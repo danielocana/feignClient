@@ -1,6 +1,5 @@
 package com.example.spring.configuration;
 
-
 import feign.Contract;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -32,7 +31,8 @@ public class FeignConfiguration {
             @Override
             public void apply(RequestTemplate template) {
                 LOGGER.info("Operation: " + template.method()
-                        + " | URL " + template.url());
+                        + " | URL " + template.url()
+                        + " | queryLine " + template.queryLine());
                 template.header("User-Agent", serviceName);
             }
         };
