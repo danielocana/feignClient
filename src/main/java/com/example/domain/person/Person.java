@@ -31,4 +31,20 @@ public class Person {
     public String getPhone() {
         return phone;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

@@ -1,8 +1,6 @@
 package com.example.spring.configuration;
 
-import com.example.service.CreatePersonUseCase;
-import com.example.service.FindAllPersonUseCase;
-import com.example.service.FindByIdPersonUseCase;
+import com.example.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,5 +20,15 @@ public class ApplicationConfiguration {
     @Bean
     public FindAllPersonUseCase findAllPersonUseCase (){
         return new FindAllPersonUseCase();
+    }
+
+    @Bean
+    public DeletePersonUseCase deletePersonUseCase() {
+        return new DeletePersonUseCase();
+    }
+
+    @Bean
+    public UpdatePersonUseCase updatePersonUseCase (){
+        return new UpdatePersonUseCase();
     }
 }

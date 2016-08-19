@@ -1,9 +1,7 @@
 package com.example.spring.controllers;
 
 import com.example.domain.person.Person;
-import com.example.service.CreatePersonUseCase;
-import com.example.service.FindAllPersonUseCase;
-import com.example.service.FindByIdPersonUseCase;
+import com.example.service.*;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import feign.FeignException;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -25,30 +23,50 @@ public class PersonController {
 
     private FindAllPersonUseCase findAllPersonUseCase;
 
+    private DeletePersonUseCase deletePersonUseCase;
+
+    private UpdatePersonUseCase updatePersonUseCase;
+
     @Inject
     public PersonController(FindByIdPersonUseCase findById,
                             CreatePersonUseCase create,
-                            FindAllPersonUseCase findAllPersonUseCase) {
+                            FindAllPersonUseCase findAllPersonUseCase,
+                            DeletePersonUseCase deletePersonUseCase,
+                            UpdatePersonUseCase updatePersonUseCase) {
         this.findById = findById;
         this.create = create;
         this.findAllPersonUseCase = findAllPersonUseCase;
+        this.deletePersonUseCase = deletePersonUseCase;
+        this.updatePersonUseCase = updatePersonUseCase;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public Person findById(@PathVariable String id) {
-        return findById.findById(id);
+        return findById.findById(id).toBlocking().first();
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<Person> findAll (@RequestParam( defaultValue = "0", required=false, name = "offset") String offset,
                                   @RequestParam( defaultValue = "20", required=false, name = "limit") String limit){
-        return findAllPersonUseCase.finAll(offset,limit);
+        return findAllPersonUseCase.findAll(offset,limit).toList().toBlocking().first();
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Person create(@RequestBody Person person) {
-        return create.create(person);
+        return create.create(person).toBlocking().first();
     }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable String id) {
+        deletePersonUseCase.delete(id).subscribe();
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public Person update(@RequestBody Person person, @PathVariable String id) {
+        person.setId(id);
+        return updatePersonUseCase.update(id ,person).toBlocking().first();
+    }
+
 
     @ExceptionHandler(Exception.class)
     public void handleAllException(Exception ex, HttpServletResponse response) throws IOException {

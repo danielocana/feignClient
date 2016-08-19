@@ -5,14 +5,12 @@ import com.example.infrastructure.repository.PersonRepositoryFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import rx.Observable;
 
-import javax.inject.Inject;
-
-public class FindByIdPersonUseCase {
+public class UpdatePersonUseCase {
 
     @Autowired
     PersonRepositoryFeign repository;
 
-    public Observable<Person> findById (String id){
-        return repository.findById(id);
+    public Observable<Person> update (String id, Person person){
+        return repository.update(id, person);
     }
 }

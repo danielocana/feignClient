@@ -1,18 +1,15 @@
 package com.example.service;
 
-import com.example.domain.person.Person;
 import com.example.infrastructure.repository.PersonRepositoryFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import rx.Observable;
 
-import javax.inject.Inject;
-
-public class FindByIdPersonUseCase {
+public class DeletePersonUseCase {
 
     @Autowired
     PersonRepositoryFeign repository;
 
-    public Observable<Person> findById (String id){
-        return repository.findById(id);
+    public Observable<Void> delete(String id){
+        return repository.delete(id);
     }
 }
