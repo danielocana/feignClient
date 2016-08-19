@@ -48,7 +48,7 @@ public class PersonController {
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<Person> findAll (@RequestParam( defaultValue = "0", required=false, name = "offset") String offset,
                                   @RequestParam( defaultValue = "20", required=false, name = "limit") String limit){
-        return findAllPersonUseCase.findAll(offset,limit).toList().toBlocking().first();
+        return findAllPersonUseCase.findAll(offset,limit);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -72,7 +72,7 @@ public class PersonController {
     public void handleAllException(Exception ex, HttpServletResponse response) throws IOException {
         if (ex instanceof HystrixRuntimeException) {
             HystrixRuntimeException hystrixRuntimeException = (HystrixRuntimeException) ex;
-            response.setStatus(HttpResponseStatus.NOT_FOUND.code());
+            response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
             response.setContentType(MediaType.APPLICATION_JSON);
             response.getOutputStream().print(hystrixRuntimeException.getCause().getLocalizedMessage());
         } else if (ex.getCause() instanceof FeignException) {
