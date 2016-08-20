@@ -29,6 +29,7 @@ public interface PersonRepositoryFeign {
 
     @DELETE
     @Path("/persons/{id}")
+    @Consumes("application/json")
     Observable<Void> delete(@PathParam("id") String id);
 
     @PUT

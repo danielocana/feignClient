@@ -5,7 +5,11 @@ import com.example.service.*;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import feign.FeignException;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.support.ErrorMessage;
 import org.springframework.web.bind.annotation.*;
+import rx.exceptions.OnErrorNotImplementedException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -58,6 +62,7 @@ public class PersonController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable String id) {
+        //TODO when doest'n exists the person I think the observable void is a problem for the error.
         deletePersonUseCase.delete(id).subscribe();
     }
 
@@ -80,6 +85,10 @@ public class PersonController {
             response.setStatus(exception.status());
             response.setContentType(MediaType.APPLICATION_JSON);
             response.getOutputStream().print(exception.getMessage());
+        } else if(ex instanceof OnErrorNotImplementedException){
+            response.setContentType(MediaType.APPLICATION_JSON);
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            response.getOutputStream().print(ex.getMessage());
         }
     }
 }
