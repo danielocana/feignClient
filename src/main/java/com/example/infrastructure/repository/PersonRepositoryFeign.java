@@ -2,10 +2,8 @@ package com.example.infrastructure.repository;
 
 import com.example.domain.person.Person;
 import com.example.spring.configuration.FeignConfiguration;
-import feign.Param;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import rx.Observable;
-
 import javax.ws.rs.*;
 import java.util.List;
 
