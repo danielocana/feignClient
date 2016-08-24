@@ -1,0 +1,9 @@
+language: java
+before_install:
+ - chmod +x gradlew
+script: ./gradlew test
+script: ./gradlew assemble
+jdk:
+  - oraclejdk8
+notifications:
+  slack: kbcorp:VmKff1RatoTSn6qUXLzNbSwR
