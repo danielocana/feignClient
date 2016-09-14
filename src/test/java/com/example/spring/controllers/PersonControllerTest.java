@@ -1,6 +1,7 @@
 package com.example.spring.controllers;
 
 import com.example.spring.DemoFeignApplicationTest;
+import com.example.spring.common.ControllerTest;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.AfterClass;
@@ -27,27 +28,16 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {DemoFeignApplicationTest.class})
 @WebAppConfiguration
-public class PersonControllerTest {
+public class PersonControllerTest extends ControllerTest{
 
     @Inject
     private WebApplicationContext webApplicationContext;
-    private static WireMockServer wireMockServer;
 
     private MockMvc mockMvc;
-
-    private static final int wireMockPort = 8089;
 
     @Before
     public void setUp() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        wireMockServer = new WireMockServer(wireMockPort);
-        wireMockServer.start();
-    }
-
-    @AfterClass
-    public static void tearDownAfter() throws Exception {
-        wireMockServer.shutdown();
-        wireMockServer.stop();
     }
 
     @Test
@@ -58,7 +48,6 @@ public class PersonControllerTest {
                         .withStatus(HttpResponseStatus.OK.code())
                         .withHeader("Content-Type", "application/json")
                         .withBody("{\"id\":\"1234\",\"name\":\"mirtinha\",\"dni\":\"the-dni\",\"phone\":\"4567888\"}")));
-
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/persons/1234");
 
@@ -90,11 +79,4 @@ public class PersonControllerTest {
     public void update() throws Exception {
 
     }
-
-    @Test
-    @Ignore
-    public void handleAllException() throws Exception {
-
-    }
-
 }
