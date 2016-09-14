@@ -56,6 +56,7 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public Person create(@RequestBody Person person) {
         return create.create(person).toBlocking().first();
     }
