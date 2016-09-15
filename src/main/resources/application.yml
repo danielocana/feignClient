@@ -1,6 +1,9 @@
 spring:
   application:
     name: Feign_client
+  output:
+    ansi:
+      enabled: always
 
 server:
   port: 8010
