@@ -44,33 +44,37 @@ public class PersonController {
         this.updatePersonUseCase = updatePersonUseCase;
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET,  produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
     public Person findById(@PathVariable String id) {
         return findById.findById(id).toBlocking().first();
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public List<Person> findAll (@RequestParam( defaultValue = "0", required=false, name = "offset") String offset,
-                                  @RequestParam( defaultValue = "20", required=false, name = "limit") String limit){
-        return findAllPersonUseCase.findAll(offset,limit);
+    @ResponseStatus(HttpStatus.OK)
+    public List<Person> findAll(@RequestParam(defaultValue = "0", required = false, name = "offset") String offset,
+                                @RequestParam(defaultValue = "20", required = false, name = "limit") String limit) {
+        return findAllPersonUseCase.findAll(offset, limit);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Person create(@RequestBody Person person) {
         return create.create(person).toBlocking().first();
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable String id) {
         //TODO when doest'n exists the person I think the observable void is a problem for the error.
         deletePersonUseCase.delete(id).subscribe();
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, produces = "application/json")
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
     public Person update(@RequestBody Person person, @PathVariable String id) {
         person.setId(id);
-        return updatePersonUseCase.update(id ,person).toBlocking().first();
+        return updatePersonUseCase.update(id, person).toBlocking().first();
     }
 
 
@@ -86,7 +90,7 @@ public class PersonController {
             response.setStatus(exception.status());
             response.setContentType(MediaType.APPLICATION_JSON);
             response.getOutputStream().print(exception.getMessage());
-        } else if(ex instanceof OnErrorNotImplementedException){
+        } else if (ex instanceof OnErrorNotImplementedException) {
             response.setContentType(MediaType.APPLICATION_JSON);
             response.setStatus(HttpStatus.NOT_FOUND.value());
             response.getOutputStream().print(ex.getMessage());
